@@ -1,16 +1,37 @@
-# This is a sample Python script.
+import numpy as np
+import matplotlib.pyplot as plt
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+R1=1.496*10**8 #радиус орбиты
+T1=3.156*10**7 #период обращения
+R2=3.844*10**7
+T2=2.36*10**6
+N=1000.0
 
+def X(t):
+         return R1*np.cos(2*np.pi*t/T1)
+def Y(t):
+         return R1*np.sin(2*np.pi*t/T1)
+def x(t):
+         return R2*np.cos(2*np.pi*t/T2)
+def y(t):
+         return R2*np.sin(2*np.pi*t/T2)
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+t=[T1*i/N for i in np.arange(0,N,1)]
+X=np.array([X(w) for w in t])
+Y=np.array([Y(w) for w in t])
+x=np.array([x(w) for w in t])
+y=np.array([y(w) for w in t])
 
+XG=X+x
+YG=Y+y
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+plt.figure()
+plt.title("Гелиоцентрическая орбита  Земли и Луны")
+plt.xlabel('$X(t_{k})$,$X_{g}(t_{k})$')
+plt.ylabel('$Y(t_{k})$,$Y_{g}(t_{k})$')
+plt.axis([-2.0*10**8,2.0*10**8,-2.0*10**8,2.0*10**8])
+plt.plot(X,Y,label='Орбита Земли')
+plt.plot(XG,YG,label='Орбита Луны')
+plt.legend(loc='best')
+plt.grid(True)
+plt.show()
