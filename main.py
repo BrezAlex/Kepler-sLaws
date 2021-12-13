@@ -1,37 +1,42 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
-R1=1.496*10**8 #радиус орбиты
-T1=3.156*10**7 #период обращения
-R2=3.844*10**7
-T2=2.36*10**6
-N=1000.0
+M = 100
+m = 10
+G = 6.67 * 10 ** 3
+T_Earth = 365
+T_Moon = 235
+r = 45
+r1 = 12
+t = 0
+dt = 0.001
 
-def X(t):
-         return R1*np.cos(2*np.pi*t/T1)
-def Y(t):
-         return R1*np.sin(2*np.pi*t/T1)
-def x(t):
-         return R2*np.cos(2*np.pi*t/T2)
-def y(t):
-         return R2*np.sin(2*np.pi*t/T2)
+v_Earth = 2 * np.pi * r / T_Earth
+v_Moon = 2 * np.pi * r / T_Moon
 
-t=[T1*i/N for i in np.arange(0,N,1)]
-X=np.array([X(w) for w in t])
-Y=np.array([Y(w) for w in t])
-x=np.array([x(w) for w in t])
-y=np.array([y(w) for w in t])
+x0 = []
+y0 = []
+x = []
+y = []
 
-XG=X+x
-YG=Y+y
+while t <= 10:
+    t += dt
+    x0_value = v_Earth * dt
+    y0_value = v_Earth * dt
+    x_value = v_Moon * dt
+    y_value = v_Moon * dt
 
-plt.figure()
-plt.title("Гелиоцентрическая орбита  Земли и Луны")
-plt.xlabel('$X(t_{k})$,$X_{g}(t_{k})$')
-plt.ylabel('$Y(t_{k})$,$Y_{g}(t_{k})$')
-plt.axis([-2.0*10**8,2.0*10**8,-2.0*10**8,2.0*10**8])
-plt.plot(X,Y,label='Орбита Земли')
-plt.plot(XG,YG,label='Орбита Луны')
-plt.legend(loc='best')
-plt.grid(True)
+    R = np.sqrt((x_value - x0_value) ** 2 + (y_value - y0_value) ** 2)
+    F = -G * m * M / R ** 2
+    x0.append(x0)
+    y0.append(y0)
+    x.append(x)
+    y.append(y)
+    print(x0)
+
+plt.title('Траектории')
+plt.grid()
+plt.xlabel("x")
+plt.ylabel("y")
+plt.plot(x, y)
 plt.show()
