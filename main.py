@@ -1,42 +1,27 @@
-import matplotlib.pyplot as plt
-import numpy as np
+import graphics as gr
 
-M = 100
-m = 10
-G = 6.67 * 10 ** 3
-T_Earth = 365
-T_Moon = 235
-r = 45
-r1 = 12
-t = 0
-dt = 0.001
+SIZE_X = 400
+SIZE_Y = 400
 
-v_Earth = 2 * np.pi * r / T_Earth
-v_Moon = 2 * np.pi * r / T_Moon
+window = gr.GraphWin("Model", SIZE_X, SIZE_Y)
 
-x0 = []
-y0 = []
-x = []
-y = []
+coords = gr.Point(200, 200)
+velocity = gr.Point(1, -2)
 
-while t <= 10:
-    t += dt
-    x0_value = v_Earth * dt
-    y0_value = v_Earth * dt
-    x_value = v_Moon * dt
-    y_value = v_Moon * dt
+def add(point_1, point_2):
+    new_point = gr.Point(point_1.x + point_2.y, point_1.y + point_2.y)
+    return new_point
 
-    R = np.sqrt((x_value - x0_value) ** 2 + (y_value - y0_value) ** 2)
-    F = -G * m * M / R ** 2
-    x0.append(x0)
-    y0.append(y0)
-    x.append(x)
-    y.append(y)
-    print(x0)
+def clear_window():
+    rectangle = gr.Rectangle(gr.Point(0, 0), gr.Point(SIZE_X, SIZE_Y))
+    rectangle.setFill("green")
+    rectangle.draw(window)
 
-plt.title('Траектории')
-plt.grid()
-plt.xlabel("x")
-plt.ylabel("y")
-plt.plot(x, y)
-plt.show()
+def draw_circle(coords):
+    circle = gr.Circle(coords, 10)
+    circle.setFill("red")
+    circle.draw(window)
+
+while True:
+    draw_circle(coords)
+    coords = add(coords, velocity)
