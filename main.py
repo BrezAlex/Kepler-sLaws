@@ -1,27 +1,57 @@
-import graphics as gr
+import math
 
-SIZE_X = 400
-SIZE_Y = 400
+import pygame as pg
 
-window = gr.GraphWin("Model", SIZE_X, SIZE_Y)
+WIDTH = 700 # ширина
+HEIGHT = 700 # высота
+FPS = 30
+# цвета
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+Yellow = (255, 255, 0)
 
-coords = gr.Point(200, 200)
-velocity = gr.Point(1, -2)
+x0 = WIDTH / 4
+y0 = HEIGHT / 4
+M = 1.99 * 10 ** 30 # Масса Солнца кг
+G = 6.67 * 10 ** -11 # Гравитационная постоянная кг
+m = 3.33 * 10 ** 23 # Масса Меркурия кг
+R = 2439 * 10 ** 3 # Радиус Меркурия км
+alpha = 45
+t = 0
+v0 = 10
+dt = 0.1
 
-def add(point_1, point_2):
-    new_point = gr.Point(point_1.x + point_2.y, point_1.y + point_2.y)
-    return new_point
 
-def clear_window():
-    rectangle = gr.Rectangle(gr.Point(0, 0), gr.Point(SIZE_X, SIZE_Y))
-    rectangle.setFill("green")
-    rectangle.draw(window)
 
-def draw_circle(coords):
-    circle = gr.Circle(coords, 10)
-    circle.setFill("red")
-    circle.draw(window)
+print(M, G, v0)
 
-while True:
-    draw_circle(coords)
-    coords = add(coords, velocity)
+speed = 5
+
+pg.init()
+pg.mixer.init()
+screen = pg.display.set_mode((WIDTH, HEIGHT))
+pg.display.set_caption("Planets")
+clock = pg.time.Clock()
+
+running = True
+
+while running:
+    clock.tick(FPS)
+
+    for event in pg.event.get():
+        if event.type == pg.QUIT:
+            running = False
+
+    r = math.sqrt(x0 ** 2 + y0 ** 2)
+    t += dt
+    vx = v0 * math.cos(alpha) * dt
+    vy = v0 * math.sin(alpha) * dt
+    screen.fill((0, 0, 0))
+    x0 += vx
+    y0 += vy
+    pg.draw.circle(screen, WHITE, (x0, y0), 6)
+    pg.draw.circle(screen, Yellow, (WIDTH / 2, HEIGHT / 2), 19)
+    pg.display.update()
+
+pg.quit()
+
