@@ -11,7 +11,7 @@ WHITE = (255, 255, 255)
 Yellow = (255, 255, 0)
 
 x = WIDTH / 5
-y = HEIGHT / 5
+y = HEIGHT / 5 #
 
 r = 0
 x = 100
